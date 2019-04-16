@@ -7,4 +7,4 @@ The file [live.py](live.py) contains the mapping between Midi events and GPIO po
 
 [IOPi.py](IOPi.py) is a librarayr accompaning the IO Pi Zero boards, it requires `python-smbus` to access the I2C bus.
 
-The project also depends on `python-rtmidi`
+The project also depends on `python-rtmidi` and uses external `aplaymidi` and `arecordmidi` from package `alsa-utils` to play and record songs.
