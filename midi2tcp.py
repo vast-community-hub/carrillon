@@ -3,7 +3,6 @@ import time
 import rtmidi
 import socket
 from struct import pack
-from rtmidi.midiconstants import NOTE_ON, NOTE_OFF, CONTROL_CHANGE, PITCH_BEND
 
 TCP_PORT = 8383
 
