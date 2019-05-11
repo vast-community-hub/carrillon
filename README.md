@@ -13,4 +13,43 @@ Midi messages will be forwarded to the TCP connection. It can handle only 1 TCP 
 if a second connection is received while another client is connected, the second connection will be
 honored, and the first will be closed.
 
+To try it very raw, you can use `netcat` (`nc`) and `aplaymidi` in three terminals, as in:
+
+```(term 1) $ python midi2tcp.py
+Listening at port 8383
+```
+
+```(term 2) $ nc -v 0 8383
+Connection to 0 8383 port [tcp/*] succeeded!
+```
+
+```(term 3) $ aconnect -l
+client 0: 'System' [type=kernel]
+    0 'Timer           '
+    1 'Announce        '
+client 14: 'Midi Through' [type=kernel]
+    0 'Midi Through Port-0'
+client 128: 'RtMidiIn Client' [type=user,pid=14301]
+    0 'Carrillon       '
+
+(term 3) $ aplaymidi --port 128 anysong.mid
+```
+
+```(term 1) $ ./midi2tcp.py 
+Listening at port 8383
+Received connection from: ('127.0.0.1', 57012)
+Listening at port 8383
+Sending:L b'\x03\x92C]'
+Sending:L b'\x03\x92C\x00'
+Sending:L b'\x03\x92@]'
+Sending:L b'\x03\x92@\x00'
+^C
+```
+
+```(term 2) $ nc -v 0 8383
+Connection to 0 8383 port [tcp/*] succeeded!
+�C]�C�@]�@
+```
+
+
 The project also depends on `python-rtmidi` and uses external `aconnect`, `aplaymidi` and `arecordmidi` from package `alsa-utils` to play and record songs.
