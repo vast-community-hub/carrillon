@@ -15,15 +15,18 @@ honored, and the first will be closed.
 
 To try it very raw, you can use `netcat` (`nc`) and `aplaymidi` in three terminals, as in:
 
-```(term 1) $ python midi2tcp.py
+```
+(term 1) $ python midi2tcp.py
 Listening at port 8383
 ```
 
-```(term 2) $ nc -v 0 8383
+```
+(term 2) $ nc -v 0 8383
 Connection to 0 8383 port [tcp/*] succeeded!
 ```
 
-```(term 3) $ aconnect -l
+```
+(term 3) $ aconnect -l
 client 0: 'System' [type=kernel]
     0 'Timer           '
     1 'Announce        '
@@ -35,7 +38,8 @@ client 128: 'RtMidiIn Client' [type=user,pid=14301]
 (term 3) $ aplaymidi --port 128 anysong.mid
 ```
 
-```(term 1) $ ./midi2tcp.py 
+```
+(term 1) $ ./midi2tcp.py 
 Listening at port 8383
 Received connection from: ('127.0.0.1', 57012)
 Listening at port 8383
@@ -46,7 +50,8 @@ Sending:L b'\x03\x92@\x00'
 ^C
 ```
 
-```(term 2) $ nc -v 0 8383
+```
+(term 2) $ nc -v 0 8383
 Connection to 0 8383 port [tcp/*] succeeded!
 �C]�C�@]�@
 ```
