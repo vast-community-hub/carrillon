@@ -12,7 +12,7 @@ TURN_OFF_DELAY = 5
 CTRL_MODULATION = 1
 CTRL_VOLUME = 7
 
-FILENAME_BASE = 'bank-{}.mid'
+FILENAME_BASE = 'songs/bank-{}.mid'
 
 class MidiInput(object):
     # http://www.electronics.dit.ie/staff/tscarff/Music_technology/midi/midi_note_numbers_for_octaves.htm
