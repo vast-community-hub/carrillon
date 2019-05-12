@@ -12,6 +12,8 @@ TURN_OFF_DELAY = 5
 CTRL_MODULATION = 1
 CTRL_VOLUME = 7
 
+FILENAME_BASE = 'bank-{}.mid'
+
 class MidiInput(object):
     # http://www.electronics.dit.ie/staff/tscarff/Music_technology/midi/midi_note_numbers_for_octaves.htm
     # A3 = 45
@@ -60,7 +62,7 @@ class MidiInput(object):
         if self.recorder is not None:
             return
         port = str(self.INPUT_PORT)
-        filename = 'bank-{}.mid'.format(bank)
+        filename = FILENAME_BASE.format(bank)
 
         print("Start recording into {}".format(filename))
 
@@ -79,7 +81,7 @@ class MidiInput(object):
             return
 
         port = str(self.OUTPUT_PORT)
-        filename = 'bank-{}.mid'.format(bank)
+        filename = FILENAME_BASE.format(bank)
 
         print("Start playing {}".format(filename))
 
