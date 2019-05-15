@@ -6,12 +6,15 @@ por los delays. Ya veremos, quizás se puede hacer algo para que no sea tan lent
 
 Cuatro pantallas en la App
 
+![Home-Edit-Play](Home-Play-Edit.jpg)
+
 * Home
 * Edit (song)
 * Live Play
 * Settings
 
-== Home ==
+## Home
+
 Tiene una lista de canciones y unos controles básicos para apagar el sistema, prender y apagar una bomba principal que hay,
 y para tocar (play) o editar una canción. La lista de canciones tiene un scroll, supongo.
 
@@ -31,7 +34,7 @@ Esto ya se podría hacer (salvo lo de "live play").
 Tal cual la aplicación vieja, cuando elijen Play, ejecuta `aplaymidi` y cuando stop, mata el proceso.
 Si eligen loop play ejecuta `loopplay.sh`. 
 
-== Edit == 
+## Edit
 
 Nombre básicamente, y a que tecla del piano está asignada (para poder seguir usando la cosas sin necesidad de conectarse, o eso les parece que no tiene sentido?)
 
@@ -41,9 +44,10 @@ cuando aprietan record ejecuta `arecordmidi`.
 
 El botón de la campanita vuelve al home, o va del homa a "live play"
 
-== Live Play ==
+## Live Play
 
-== Settings ==￼
+## Settings
+
 * Tocar cada hora (si/no)
 * Tocar cada 1/4 de hora (si/no)
 * Horario y días para tocar
