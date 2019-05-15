@@ -78,3 +78,6 @@ Solo las teclas del rango asignado se muestran (hay que documentarlo)
 * elegir que canción tocar cada hora
 * no se que otros settings veremos
 ￼
+# Plan
+
+We are (still just) planning to do all using VA Smalltalk! ![VA Smalltalk](Built-With-VA-Smalltalk.png)
