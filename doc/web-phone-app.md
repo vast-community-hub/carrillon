@@ -15,8 +15,9 @@ Cuatro pantallas en la App
 
 ## Home
 
-Tiene una lista de canciones y unos controles básicos para apagar el sistema, prender y apagar una bomba principal que hay,
-y para tocar (play) o editar una canción. La lista de canciones tiene un scroll, supongo.
+Tiene una lista de canciones y unos controles básicos para apagar el sistema, prender y apagar
+una bomba principal que hay, y para tocar (play) o editar una canción. La lista de canciones
+tiene un scroll, supongo.
 
 Abajo siempre hay un player (play, play loop, pause, stop).
 
@@ -36,7 +37,8 @@ Si eligen loop play ejecuta `loopplay.sh`.
 
 ## Edit
 
-Nombre básicamente, y a que tecla del piano está asignada (para poder seguir usando la cosas sin necesidad de conectarse, o eso les parece que no tiene sentido?)
+Nombre básicamente, y a que tecla del piano está asignada (para poder seguir usando la cosas sin
+necesidad de conectarse, o eso les parece que no tiene sentido?)
 
 
 Eso ya funcionaría, y es un gran avance de lo que hay hoy
