@@ -44,6 +44,18 @@ abtIsViewApplication
 
 !MidiEvent class publicMethods !
 
+eventNames
+	^ Dictionary new
+			at: 16r80 put: 'Note Off';
+			at: 16r90 put: 'Note On';
+			at: 16rA0 put: 'Aftertouch';
+			at: 16rB0 put: 'Control Change';
+			at: 16rC0 put: 'Program Change';
+			at: 16rD0 put: 'Channel Pressure';
+			at: 16rE0 put: 'Pitch Bend Change';
+			at: 16rF0 put: 'System Message';
+			yourself!
+
 fromArray: bytes
 	^ self new bytes: bytes!
 
@@ -69,6 +81,9 @@ channel
 
 data
 	^bytes allButFirst!
+
+eventName
+	^self class eventNames at: self message!
 
 isActiveSensing
 	^ self isSystemMessage and: [self argument == 16r0E]!
@@ -125,7 +140,15 @@ note
 	^bytes second!
 
 pressure
-	^bytes third! !
+	^bytes third!
+
+printOn: aStream
+	super printOn: aStream.
+	aStream 
+		space; 
+		nextPut: $(;
+		nextPutAll: self eventName;
+		nextPut: $).! !
 
 !MidiEventTest publicMethods !
 
