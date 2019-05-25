@@ -165,7 +165,7 @@ isNoteOff
 isNoteOn
 	^false!
 
-isPitchBendChange
+isPitchBend
 	^false!
 
 isProgramChange
@@ -216,7 +216,20 @@ message
 !MidiEventChannelPressure publicMethods !
 
 channel
-	^argument! !
+	^argument + 1!
+
+data: aByteArray
+	self
+		pressure: aByteArray first!
+
+isChannelPressure
+	^true!
+
+pressure
+	^pressure!
+
+pressure: anInteger
+	pressure := anInteger! !
 
 !MidiEventControlChange class publicMethods !
 
@@ -226,7 +239,10 @@ message
 !MidiEventControlChange publicMethods !
 
 channel
-	^argument! !
+	^argument!
+
+isControlChange
+	^true! !
 
 !MidiEventNoteOff class publicMethods !
 
@@ -280,7 +296,10 @@ message
 !MidiEventPitchBend publicMethods !
 
 channel
-	^argument! !
+	^argument!
+
+isPitchBend
+	^true! !
 
 !MidiEventProgramChange class publicMethods !
 
@@ -290,7 +309,10 @@ message
 !MidiEventProgramChange publicMethods !
 
 channel
-	^argument! !
+	^argument!
+
+isProgramChange
+	^true! !
 
 !MidiEventSystemMessage class publicMethods !
 
@@ -304,6 +326,9 @@ data
 
 data: aByteArray
 	data := aByteArray!
+
+isSystemMessage
+	^true!
 
 type
 	^argument! !
@@ -331,11 +356,11 @@ testArgument
 
 testChannelPressure
 	| evt  |
-	evt := self eventWith: 16rA4 with: 100 with: 101.
+	evt := self eventWith: 16rD4 with: 100 with: 101.
 	self
 		assert: evt  isChannelPressure;
-		assert: evt channel == 5;
-		assert: evt pressure == 100;
+		assert: evt channel equals: 5;
+		assert: evt pressure equals: 100;
 		deny: evt isNoteOff!
 
 testClassForMessage
