@@ -8,7 +8,70 @@ Application create: #CarrillonBase with:
 CarrillonBase becomeDefault!
 Object subclass: #MidiEvent
     classInstanceVariableNames: ''
-    instanceVariableNames: 'bytes '
+    instanceVariableNames: 'argument '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventChannelPressure
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'pressure '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventControlChange
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'controller value '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventOnOffAftertouch
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'note pressure '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEventOnOffAftertouch subclass: #MidiEventAftertouch
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEventOnOffAftertouch subclass: #MidiEventNoteOff
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEventOnOffAftertouch subclass: #MidiEventNoteOn
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventPitchBend
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'pitch '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventProgramChange
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'program '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiEvent subclass: #MidiEventSystemMessage
+    classInstanceVariableNames: ''
+    instanceVariableNames: 'data '
     classVariableNames: ''
     poolDictionaries: ''!
 
@@ -44,70 +107,69 @@ abtIsViewApplication
 
 !MidiEvent class publicMethods !
 
-eventNames
-	^ Dictionary new
-			at: 16r80 put: 'Note Off';
-			at: 16r90 put: 'Note On';
-			at: 16rA0 put: 'Aftertouch';
-			at: 16rB0 put: 'Control Change';
-			at: 16rC0 put: 'Program Change';
-			at: 16rD0 put: 'Channel Pressure';
-			at: 16rE0 put: 'Pitch Bend Change';
-			at: 16rF0 put: 'System Message';
-			yourself!
+argument: anInteger
+	^self new argument: anInteger!
+
+classForMessage: anInteger
+	^self allSubclasses detect: [:each | each message == anInteger]!
 
 fromArray: bytes
-	^ self new bytes: bytes!
+	| message class argument |
+	message := bytes first bitAnd: 16rF0.
+	argument := bytes first bitAnd: 16r0F.
+	class := self classForMessage:message.
+	^(class argument: argument) data: bytes allButFirst
+	!
 
 fromStream: strm
 	| count bytes |
 	count := strm next.
 	bytes := strm next: count.
-	^ self fromArray: bytes! !
+	^ self fromArray: bytes!
+
+message
+	^self subclassResponsibility! !
 
 !MidiEvent publicMethods !
 
 argument
-	^bytes first bitAnd: 16r0F!
+	^argument!
 
-bytes
-	^bytes!
-
-bytes: aByteArray
-	bytes := aByteArray!
+argument: anInteger
+	argument := anInteger!
 
 channel
-	^self argument + 1!
+	^argument+1!
 
-data
-	^bytes allButFirst!
+channel: anInteger
+	self argument: anInteger - 1!
 
-eventName
-	^self class eventNames at: self message!
+data: aByteArray
+!
 
 isActiveSensing
 	^ self isSystemMessage and: [self argument == 16r0E]!
 
 isAftertouch
-	^self message == 16rA0!
+	^false!
 
 isChannelPressure
-	^self message == 16rD0!
+	^false!
 
 isControlChange
-	^self message == 16rB0!
+	^false!
 
 isNoteOff
-	^self message == 16r80!
+	^false!
 
 isNoteOn
-	^self message == 16r90!
+	^false!
 
 isPitchBendChange
-	^self message == 16rE0!
+	^false!
 
 isProgramChange
-	^self message == 16rC0!
+	^false!
 
 isReset
 	^ self isSystemMessage and: [self argument == 16r0F]!
@@ -122,7 +184,7 @@ isSequenceStop
 	^ self isSystemMessage and: [self argument == 16r0C]!
 
 isSystemMessage
-	^self message == 16rF0!
+	^false!
 
 isTimingClock
 	^ self isSystemMessage and: [self argument == 16r08]!
@@ -134,21 +196,117 @@ isUndefined2
 	^ self isSystemMessage and: [self argument == 16r0D]!
 
 message
-	^bytes first bitAnd: 16rF0!
+	^self class message! !
+
+!MidiEventAftertouch class publicMethods !
+
+message
+	^16rA0! !
+
+!MidiEventAftertouch publicMethods !
+
+isAftertouch
+	^true! !
+
+!MidiEventChannelPressure class publicMethods !
+
+message
+	^16rD0! !
+
+!MidiEventChannelPressure publicMethods !
+
+channel
+	^argument! !
+
+!MidiEventControlChange class publicMethods !
+
+message
+	^16rB0! !
+
+!MidiEventControlChange publicMethods !
+
+channel
+	^argument! !
+
+!MidiEventNoteOff class publicMethods !
+
+message
+	^16r80! !
+
+!MidiEventNoteOff publicMethods !
+
+isNoteOff
+	^true! !
+
+!MidiEventNoteOn class publicMethods !
+
+message
+	^16r90! !
+
+!MidiEventNoteOn publicMethods !
+
+isNoteOn
+	^true! !
+
+!MidiEventOnOffAftertouch class publicMethods !
+
+message
+	^nil! !
+
+!MidiEventOnOffAftertouch publicMethods !
+
+data: aByteArray
+	self
+		note: aByteArray first;
+		pressure: aByteArray second!
 
 note
-	^bytes second!
+	^note!
+
+note: anInteger
+	note := anInteger!
 
 pressure
-	^bytes third!
+	^pressure!
 
-printOn: aStream
-	super printOn: aStream.
-	aStream 
-		space; 
-		nextPut: $(;
-		nextPutAll: self eventName;
-		nextPut: $).! !
+pressure: anObject
+	pressure := anObject! !
+
+!MidiEventPitchBend class publicMethods !
+
+message
+	^16rE0! !
+
+!MidiEventPitchBend publicMethods !
+
+channel
+	^argument! !
+
+!MidiEventProgramChange class publicMethods !
+
+message
+	^16rC0! !
+
+!MidiEventProgramChange publicMethods !
+
+channel
+	^argument! !
+
+!MidiEventSystemMessage class publicMethods !
+
+message
+	^16rF0! !
+
+!MidiEventSystemMessage publicMethods !
+
+data
+	^data!
+
+data: aByteArray
+	data := aByteArray!
+
+type
+	^argument! !
 
 !MidiEventTest publicMethods !
 
@@ -156,25 +314,71 @@ eventWith: a with: b with: c
 	^ MidiEvent fromArray: (Array with: a with: b with: c).
 !
 
+testAftertouch
+	| evt  |
+	evt := self eventWith: 16rA4 with: 100 with: 101.
+	self
+		assert: evt  isAftertouch;
+		assert: evt channel == 5;
+		assert: evt note == 100;
+		assert: evt pressure == 101;
+		deny: evt isNoteOff!
+
+testArgument
+	| evt |
+	evt := MidiEvent argument: 123.
+	self assert: evt argument equals: 123!
+
+testChannelPressure
+	| evt  |
+	evt := self eventWith: 16rA4 with: 100 with: 101.
+	self
+		assert: evt  isChannelPressure;
+		assert: evt channel == 5;
+		assert: evt pressure == 100;
+		deny: evt isNoteOff!
+
+testClassForMessage
+	self assert: (MidiEvent classForMessage:16r80)  equals: MidiEventNoteOff.
+	self assert: (MidiEvent classForMessage:16r90)  equals: MidiEventNoteOn.
+	self assert: (MidiEvent classForMessage:16rA0)  equals: MidiEventAftertouch.
+	self assert: (MidiEvent classForMessage:16rB0)  equals: MidiEventControlChange.
+	self assert: (MidiEvent classForMessage:16rC0)  equals: MidiEventProgramChange.
+	self assert: (MidiEvent classForMessage:16rD0)  equals: MidiEventChannelPressure.
+	self assert: (MidiEvent classForMessage:16rE0)  equals: MidiEventPitchBend.
+	self assert: (MidiEvent classForMessage:16rF0)  equals: MidiEventSystemMessage.
+!
+
+testControlChange
+	| evt  |
+	evt := self eventWith: 16rA4 with: 100 with: 101.
+	self
+		assert: evt  isControlChange;
+		assert: evt channel == 5;
+		assert: evt controller == 100;
+		assert: evt value == 100;
+		deny: evt isNoteOff!
+
 testFromArray
 	| evt |
-	evt := MidiEvent fromArray: #[129 1 2].
+	evt := MidiEvent fromArray: #[16rF5 12 42].
 	self
-		assert: evt bytes size == 3;
-		assert: evt bytes first == 129;
-		assert: evt bytes second == 1;
-		assert: evt bytes third == 2.
-		!
+		assert: evt argument equals: 5;
+		assert: evt message equals: 16rF0;
+		assert: evt data size equals: 2;
+		assert: evt data first equals: 12;
+		assert: evt data second equals: 42.!
 
 testFromStream
 	| strm  evt |
-	strm := ReadStream on: #[3 129 1 2].
+	strm := ReadStream on: #[3 16rF5 12 42].
 	evt := MidiEvent fromStream: strm.
 	self
-		assert: evt bytes size == 3;
-		assert: evt bytes first == 129;
-		assert: evt bytes second == 1;
-		assert: evt bytes third == 2!
+		assert: evt argument equals: 5;
+		assert: evt message equals: 16rF0;
+		assert: evt data size equals: 2;
+		assert: evt data first equals: 12;
+		assert: evt data second equals: 42.!
 
 testNoteOff
 	| evt  |
@@ -183,7 +387,8 @@ testNoteOff
 		assert: evt  isNoteOff;
 		assert: evt channel == 4;
 		assert: evt note == 100;
-		assert: evt pressure == 101!
+		assert: evt pressure == 101;
+		deny: evt isNoteOn!
 
 testNoteOn
 	| evt  |
@@ -192,7 +397,35 @@ testNoteOn
 		assert: evt  isNoteOn;
 		assert: evt channel == 1;
 		assert: evt note == 100;
-		assert: evt pressure == 101! !
+		assert: evt pressure == 101;
+		deny: evt isNoteOff!
+
+testPitchBend
+	| evt  |
+	evt := self eventWith: 16rAF with: 100 with: 101.
+	self
+		assert: evt  isPitchBend;
+		assert: evt channel == 16;
+		assert: evt pitch == 100;
+		deny: evt isNoteOff!
+
+testProgramChange
+	| evt  |
+	evt := self eventWith: 16rAF with: 100 with: 101.
+	self
+		assert: evt  isProgramChange;
+		assert: evt channel == 16;
+		assert: evt program == 100;
+		deny: evt isNoteOff!
+
+testSystemMessage
+	| evt  |
+	evt := self eventWith: 16rFF with: 100 with: 101.
+	self
+		assert: evt  isSystemMessage;
+		assert: evt argument equals: 16;
+		assert: evt data equals: #[100 101];
+		deny: evt isNoteOff! !
 
 !MidiInput class publicMethods !
 
@@ -211,6 +444,15 @@ nextEvent
 	^MidiEvent fromStream:  peer! !
 
 MidiEvent initializeAfterLoad!
+MidiEventChannelPressure initializeAfterLoad!
+MidiEventControlChange initializeAfterLoad!
+MidiEventOnOffAftertouch initializeAfterLoad!
+MidiEventAftertouch initializeAfterLoad!
+MidiEventNoteOff initializeAfterLoad!
+MidiEventNoteOn initializeAfterLoad!
+MidiEventPitchBend initializeAfterLoad!
+MidiEventProgramChange initializeAfterLoad!
+MidiEventSystemMessage initializeAfterLoad!
 MidiInput initializeAfterLoad!
 CarrillonBase initializeAfterLoad!
 MidiEventTest initializeAfterLoad!
