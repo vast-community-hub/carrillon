@@ -215,9 +215,6 @@ message
 
 !MidiEventChannelPressure publicMethods !
 
-channel
-	^argument + 1!
-
 data: aByteArray
 	self
 		pressure: aByteArray first!
@@ -238,11 +235,25 @@ message
 
 !MidiEventControlChange publicMethods !
 
-channel
-	^argument!
+controller
+	^controller!
+
+controller: anInteger
+	controller := anInteger!
+
+data: aByteArray
+	self
+		controller: aByteArray first;
+		value: aByteArray second!
 
 isControlChange
-	^true! !
+	^true!
+
+value
+	^value!
+
+value: anInteger
+	value := anInteger! !
 
 !MidiEventNoteOff class publicMethods !
 
@@ -295,11 +306,18 @@ message
 
 !MidiEventPitchBend publicMethods !
 
-channel
-	^argument!
+data: aByteArray
+	self
+		pitch: aByteArray first!
 
 isPitchBend
-	^true! !
+	^true!
+
+pitch
+	^pitch!
+
+pitch: anObject
+	pitch := anObject! !
 
 !MidiEventProgramChange class publicMethods !
 
@@ -308,11 +326,18 @@ message
 
 !MidiEventProgramChange publicMethods !
 
-channel
-	^argument!
+data: aByteArray
+	self
+		program: aByteArray first!
 
 isProgramChange
-	^true! !
+	^true!
+
+program
+	^program!
+
+program: anInteger
+	program := anInteger! !
 
 !MidiEventSystemMessage class publicMethods !
 
@@ -376,12 +401,12 @@ testClassForMessage
 
 testControlChange
 	| evt  |
-	evt := self eventWith: 16rA4 with: 100 with: 101.
+	evt := self eventWith: 16rB4 with: 100 with: 101.
 	self
 		assert: evt  isControlChange;
 		assert: evt channel == 5;
-		assert: evt controller == 100;
-		assert: evt value == 100;
+		assert: evt controller equals: 100;
+		assert: evt value equals: 101;
 		deny: evt isNoteOff!
 
 testFromArray
@@ -427,20 +452,20 @@ testNoteOn
 
 testPitchBend
 	| evt  |
-	evt := self eventWith: 16rAF with: 100 with: 101.
+	evt := self eventWith: 16rEF with: 100 with: 101.
 	self
 		assert: evt  isPitchBend;
-		assert: evt channel == 16;
-		assert: evt pitch == 100;
+		assert: evt channel equals: 16;
+		assert: evt pitch equals: 100;
 		deny: evt isNoteOff!
 
 testProgramChange
 	| evt  |
-	evt := self eventWith: 16rAF with: 100 with: 101.
+	evt := self eventWith: 16rCF with: 100 with: 101.
 	self
 		assert: evt  isProgramChange;
-		assert: evt channel == 16;
-		assert: evt program == 100;
+		assert: evt channel equals: 16;
+		assert: evt program equals: 100;
 		deny: evt isNoteOff!
 
 testSystemMessage
@@ -448,8 +473,8 @@ testSystemMessage
 	evt := self eventWith: 16rFF with: 100 with: 101.
 	self
 		assert: evt  isSystemMessage;
-		assert: evt argument equals: 16;
-		assert: evt data equals: #[100 101];
+		assert: evt argument equals: 15;
+		assert: evt data equals: #(100 101);
 		deny: evt isNoteOff! !
 
 !MidiInput class publicMethods !
