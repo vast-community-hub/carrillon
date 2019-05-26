@@ -219,10 +219,18 @@ pressure: anInteger
 
 !MidiEventControlChange class publicMethods !
 
+channel: channel controller: controller value: value
+	^(self channel: channel)
+			controller: controller;
+			value: value!
+
 message
 	^16rB0! !
 
 !MidiEventControlChange publicMethods !
+
+asByteArray
+	^ByteArray with: self status with: self controller with: self value!
 
 controller
 	^controller!
@@ -298,10 +306,16 @@ pressure: anObject
 
 !MidiEventPitchBend class publicMethods !
 
+channel: channel pitch: pitch
+	^(self channel: channel) pitch: pitch!
+
 message
 	^16rE0! !
 
 !MidiEventPitchBend publicMethods !
+
+asByteArray
+	^ByteArray with: self status with: self pitch!
 
 fromBytes: aByteArray
 	self
@@ -318,10 +332,16 @@ pitch: anObject
 
 !MidiEventProgramChange class publicMethods !
 
+channel: channel program: program
+	^(self channel: channel) program: program!
+
 message
 	^16rC0! !
 
 !MidiEventProgramChange publicMethods !
+
+asByteArray
+	^ByteArray with: self status with: self program!
 
 fromBytes: aByteArray
 	self
@@ -339,12 +359,25 @@ program: anInteger
 !MidiEventSystemMessage class publicMethods !
 
 message
-	^16rF0! !
+	^16rF0!
+
+type: type data: aByteArray
+	^(self argument: type) data: aByteArray! !
 
 !MidiEventSystemMessage publicMethods !
 
+asByteArray
+	| answer |
+	answer := ByteArray new: self data size + 1.
+	answer at: 1 put: self status.
+	answer replaceFrom: 2 to: answer size with: self data startingAt: 1.
+	^answer!
+
 data
 	^data!
+
+data: aByteArray
+	data := aByteArray!
 
 fromBytes: aByteArray
 	data := aByteArray!
@@ -456,6 +489,18 @@ testControlChange
 		assert: evt value equals: 101;
 		deny: evt isNoteOff!
 
+testControlChangeCreation
+	| evt  |
+	evt := MidiEventControlChange channel: 1 controller: 100 value: 101.
+	self
+		assert: evt  isControlChange;
+		assert: evt channel == 1;
+		assert: evt controller equals: 100;
+		assert: evt value equals: 101;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rB0 100 101].
+!
+
 testFromArray
 	| evt |
 	evt := MidiEvent fromArray: #[16rF5 12 42].
@@ -530,6 +575,17 @@ testPitchBend
 		assert: evt pitch equals: 100;
 		deny: evt isNoteOff!
 
+testPitchBendCreation
+	| evt  |
+	evt := MidiEventPitchBend channel: 2 pitch: 101.
+	self
+		assert: evt  isPitchBend;
+		assert: evt channel equals: 2;
+		assert: evt pitch equals: 101;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rE1  101].
+!
+
 testProgramChange
 	| evt  |
 	evt := self eventWith: 16rCF with: 100 with: 101.
@@ -538,6 +594,17 @@ testProgramChange
 		assert: evt channel equals: 16;
 		assert: evt program equals: 100;
 		deny: evt isNoteOff!
+
+testProgramChangeCreation
+	| evt  |
+	evt := MidiEventProgramChange channel: 2 program: 101.
+	self
+		assert: evt  isProgramChange;
+		assert: evt channel equals: 2;
+		assert: evt program equals: 101;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rC1  101].
+!
 
 testSystemMessage
 	| evt  |
@@ -548,6 +615,18 @@ testSystemMessage
 		assert: evt data equals: #(100 101);
 		assert: evt isReset;
 		deny: evt isNoteOff!
+
+testSystemMessageCreation
+	| evt  |
+	evt := MidiEventSystemMessage type: 15 data: #[1 2 3 4 5].
+	self
+		assert: evt  isSystemMessage;
+		assert: evt argument equals: 15;
+		assert: evt data equals: #[1 2 3 4 5];
+		assert: evt isReset;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rFF 1 2 3 4 5].
+!
 
 testSystemMessageTypes
 	| evt  |
