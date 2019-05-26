@@ -118,7 +118,7 @@ fromArray: bytes
 	message := bytes first bitAnd: 16rF0.
 	argument := bytes first bitAnd: 16r0F.
 	class := self classForMessage:message.
-	^(class argument: argument) data: bytes allButFirst
+	^(class argument: argument) fromBytes: bytes allButFirst
 	!
 
 fromStream: strm
@@ -144,7 +144,7 @@ channel
 channel: anInteger
 	self argument: anInteger - 1!
 
-data: aByteArray
+fromBytes: aByteArray
 !
 
 isAftertouch
@@ -191,7 +191,7 @@ message
 
 !MidiEventChannelPressure publicMethods !
 
-data: aByteArray
+fromBytes: aByteArray
 	self
 		pressure: aByteArray first!
 
@@ -217,7 +217,7 @@ controller
 controller: anInteger
 	controller := anInteger!
 
-data: aByteArray
+fromBytes: aByteArray
 	self
 		controller: aByteArray first;
 		value: aByteArray second!
@@ -258,7 +258,7 @@ message
 
 !MidiEventOnOffAftertouch publicMethods !
 
-data: aByteArray
+fromBytes: aByteArray
 	self
 		note: aByteArray first;
 		pressure: aByteArray second!
@@ -282,7 +282,7 @@ message
 
 !MidiEventPitchBend publicMethods !
 
-data: aByteArray
+fromBytes: aByteArray
 	self
 		pitch: aByteArray first!
 
@@ -302,7 +302,7 @@ message
 
 !MidiEventProgramChange publicMethods !
 
-data: aByteArray
+fromBytes: aByteArray
 	self
 		program: aByteArray first!
 
@@ -325,7 +325,7 @@ message
 data
 	^data!
 
-data: aByteArray
+fromBytes: aByteArray
 	data := aByteArray!
 
 isActiveSensing
