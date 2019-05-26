@@ -349,6 +349,9 @@ isSystemMessage
 isTimingClock
 	^self argument == 16r08!
 
+isUndefined
+	^self isUndefined1 or: [self isUndefined2]!
+
 isUndefined1
 	^self argument == 16r09!
 
@@ -483,7 +486,7 @@ testSystemMessageTypes
 	evt := self eventWith: 16rF8 with: 100 with: 101.
 	self assert: evt isTimingClock.
 	evt := self eventWith: 16rF9 with: 100 with: 101.
-	self assert: evt isUndefined1.
+	self assert: evt isUndefined1; assert: evt isUndefined.
 	evt := self eventWith: 16rFA with: 100 with: 101.
 	self assert: evt isSequenceStart.
 	evt := self eventWith: 16rFB with: 100 with: 101.
@@ -491,7 +494,7 @@ testSystemMessageTypes
 	evt := self eventWith: 16rFC with: 100 with: 101.
 	self assert: evt isSequenceStop.
 	evt := self eventWith: 16rFD with: 100 with: 101.
-	self assert: evt isUndefined2.
+	self assert: evt isUndefined2; assert: evt isUndefined.
 	evt := self eventWith: 16rFE with: 100 with: 101.
 	self assert: evt isActiveSensing.
 	evt := self eventWith: 16rFF with: 100 with: 101.
