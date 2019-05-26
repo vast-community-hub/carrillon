@@ -110,6 +110,9 @@ abtIsViewApplication
 argument: anInteger
 	^self new argument: anInteger!
 
+channel: anInteger
+	^self new channel: anInteger!
+
 classForMessage: anInteger
 	^self allSubclasses detect: [:each | each message == anInteger]!
 
@@ -253,10 +256,20 @@ isNoteOn
 
 !MidiEventOnOffAftertouch class publicMethods !
 
+channel: channel note: note pressure: pressure
+	^(self channel: channel)
+		note: note;
+		pressure: pressure!
+
 message
 	^nil! !
 
 !MidiEventOnOffAftertouch publicMethods !
+
+asByteArray
+	| status |
+	status := self message bitOr: self argument.
+	^ByteArray with: status with: self note with: self pressure!
 
 fromBytes: aByteArray
 	self
@@ -377,6 +390,18 @@ testAftertouch
 		assert: evt pressure == 101;
 		deny: evt isNoteOff!
 
+testAftertouchCreation
+	| evt  |
+	evt := MidiEventAftertouch channel: 16 note: 255 pressure: 0.
+	self
+		assert: evt  isAftertouch;
+		assert: evt channel equals: 16;
+		assert: evt note equals: 255;
+		assert: evt pressure equals: 0;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rAF 255 0].
+!
+
 testArgument
 	| evt |
 	evt := MidiEvent argument: 123.
@@ -443,6 +468,18 @@ testNoteOff
 		assert: evt pressure == 101;
 		deny: evt isNoteOn!
 
+testNoteOffCreation
+	| evt  |
+	evt := MidiEventNoteOff channel: 4 note: 77 pressure: 123.
+	self
+		assert: evt  isNoteOff;
+		assert: evt channel equals: 4;
+		assert: evt note equals: 77;
+		assert: evt pressure equals: 123;
+		deny: evt isNoteOn.
+	self assert: evt asByteArray equals: #[16r83 77 123].
+!
+
 testNoteOn
 	| evt  |
 	evt := self eventWith: 16r90 with: 100 with: 101.
@@ -452,6 +489,18 @@ testNoteOn
 		assert: evt note == 100;
 		assert: evt pressure == 101;
 		deny: evt isNoteOff!
+
+testNoteOnCreation
+	| evt  |
+	evt := MidiEventNoteOn channel: 4 note: 77 pressure: 123.
+	self
+		assert: evt  isNoteOn;
+		assert: evt channel equals: 4;
+		assert: evt note equals: 77;
+		assert: evt pressure equals: 123;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16r93 77 123].
+!
 
 testPitchBend
 	| evt  |
