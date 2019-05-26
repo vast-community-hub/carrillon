@@ -175,7 +175,11 @@ isSystemMessage
 	^false!
 
 message
-	^self class message! !
+	^self class message!
+
+status
+	^ self message bitOr: self argument.
+! !
 
 !MidiEventAftertouch class publicMethods !
 
@@ -267,9 +271,7 @@ message
 !MidiEventOnOffAftertouch publicMethods !
 
 asByteArray
-	| status |
-	status := self message bitOr: self argument.
-	^ByteArray with: status with: self note with: self pressure!
+	^ByteArray with: self status with: self note with: self pressure!
 
 fromBytes: aByteArray
 	self
