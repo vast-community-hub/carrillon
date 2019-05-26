@@ -147,9 +147,6 @@ channel: anInteger
 data: aByteArray
 !
 
-isActiveSensing
-	^ self isSystemMessage and: [self argument == 16r0E]!
-
 isAftertouch
 	^false!
 
@@ -171,29 +168,8 @@ isPitchBend
 isProgramChange
 	^false!
 
-isReset
-	^ self isSystemMessage and: [self argument == 16r0F]!
-
-isSequenceContinue
-	^ self isSystemMessage and: [self argument == 16r0B]!
-
-isSequenceStart
-	^ self isSystemMessage and: [self argument == 16r0A]!
-
-isSequenceStop
-	^ self isSystemMessage and: [self argument == 16r0C]!
-
 isSystemMessage
 	^false!
-
-isTimingClock
-	^ self isSystemMessage and: [self argument == 16r08]!
-
-isUndefined1
-	^ self isSystemMessage and: [self argument == 16r09]!
-
-isUndefined2
-	^ self isSystemMessage and: [self argument == 16r0D]!
 
 message
 	^self class message! !
@@ -352,8 +328,32 @@ data
 data: aByteArray
 	data := aByteArray!
 
+isActiveSensing
+	^self argument == 16r0E!
+
+isReset
+	^self argument == 16r0F!
+
+isSequenceContinue
+	^self argument == 16r0B!
+
+isSequenceStart
+	^self argument == 16r0A!
+
+isSequenceStop
+	^self argument == 16r0C!
+
 isSystemMessage
 	^true!
+
+isTimingClock
+	^self argument == 16r08!
+
+isUndefined1
+	^self argument == 16r09!
+
+isUndefined2
+	^self argument == 16r0D!
 
 type
 	^argument! !
@@ -475,7 +475,28 @@ testSystemMessage
 		assert: evt  isSystemMessage;
 		assert: evt argument equals: 15;
 		assert: evt data equals: #(100 101);
-		deny: evt isNoteOff! !
+		assert: evt isReset;
+		deny: evt isNoteOff!
+
+testSystemMessageTypes
+	| evt  |
+	evt := self eventWith: 16rF8 with: 100 with: 101.
+	self assert: evt isTimingClock.
+	evt := self eventWith: 16rF9 with: 100 with: 101.
+	self assert: evt isUndefined1.
+	evt := self eventWith: 16rFA with: 100 with: 101.
+	self assert: evt isSequenceStart.
+	evt := self eventWith: 16rFB with: 100 with: 101.
+	self assert: evt isSequenceContinue.
+	evt := self eventWith: 16rFC with: 100 with: 101.
+	self assert: evt isSequenceStop.
+	evt := self eventWith: 16rFD with: 100 with: 101.
+	self assert: evt isUndefined2.
+	evt := self eventWith: 16rFE with: 100 with: 101.
+	self assert: evt isActiveSensing.
+	evt := self eventWith: 16rFF with: 100 with: 101.
+	self assert: evt isReset.
+! !
 
 !MidiInput class publicMethods !
 
