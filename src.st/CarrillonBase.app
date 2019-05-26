@@ -193,10 +193,16 @@ isAftertouch
 
 !MidiEventChannelPressure class publicMethods !
 
+channel: channel pressure: pressure
+	^(self channel: channel) pressure: pressure!
+
 message
 	^16rD0! !
 
 !MidiEventChannelPressure publicMethods !
+
+asByteArray
+	^ByteArray with: self status with: self pressure!
 
 fromBytes: aByteArray
 	self
@@ -417,6 +423,17 @@ testChannelPressure
 		assert: evt channel equals: 5;
 		assert: evt pressure equals: 100;
 		deny: evt isNoteOff!
+
+testChannelPressureCreation
+	| evt  |
+	evt := MidiEventChannelPressure channel: 5 pressure: 100.
+	self
+		assert: evt  isChannelPressure;
+		assert: evt channel equals: 5;
+		assert: evt pressure equals: 100;
+		deny: evt isNoteOff.
+	self assert: evt asByteArray equals: #[16rD4 100].
+		!
 
 testClassForMessage
 	self assert: (MidiEvent classForMessage:16r80)  equals: MidiEventNoteOff.
