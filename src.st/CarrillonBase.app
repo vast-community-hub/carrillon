@@ -131,11 +131,11 @@ fromArray: bytes
 	^(class argument: argument) fromBytes: bytes allButFirst
 	!
 
-fromStream: strm
+fromStream: peer
 	| count bytes |
-	count := strm next.
-	bytes := strm next: count.
-	^ self fromArray: bytes!
+	count := peer next.
+	bytes := peer next: count.
+	^self fromArray: bytes!
 
 message
 	^self subclassResponsibility! !
