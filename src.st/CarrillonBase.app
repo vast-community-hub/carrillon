@@ -96,6 +96,13 @@ TestCase subclass: #MidiEventTest
     classVariableNames: ''
     poolDictionaries: ''!
 
+CarrillonBase becomeDefault!
+TestCase subclass: #MidiInputOutputTest
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''!
+
 
 CarrillonBase becomeDefault!
 
@@ -650,19 +657,38 @@ testSystemMessageTypes
 
 !MidiInput class publicMethods !
 
-new
-	^ super new initialize! !
+localProxy
+	| addr socket peer |
+	addr := SciSocketAddress fromString: '127.0.0.1:8383'.
+	socket := SciSocket newStreamSocket connect: addr.
+	peer := SstSocketStream on: socket.
+	^self peer: peer.!
+
+peer: strm
+	^self new peer: strm! !
 
 !MidiInput publicMethods !
 
-initialize
-	| addr socket |
-	addr := SciSocketAddress fromString: '127.0.0.1:8383'.
-	socket := SciSocket newStreamSocket connect: addr.
-	peer := SstSocketStream on: socket.!
-
 nextEvent
-	^MidiEvent fromStream:  peer! !
+	| count bytes |
+	count := peer next.
+	bytes := peer next: count.
+	^MidiEvent fromArray: bytes!
+
+peer: aStream
+	peer := aStream! !
+
+!MidiInputOutputTest publicMethods !
+
+testInputSimple
+	| strm input evt |
+	strm := ReadWriteStream on: (ByteArray new: 10).
+	input := MidiInput peer: strm.
+	strm nextPutAll: #[3 16r81 1 2]; reset.
+	evt  := input nextEvent.
+	self
+		assert: evt isNoteOff;
+		assert: evt channel equals: 2.! !
 
 MidiEvent initializeAfterLoad!
 MidiEventChannelPressure initializeAfterLoad!
@@ -677,5 +703,6 @@ MidiEventSystemMessage initializeAfterLoad!
 MidiInput initializeAfterLoad!
 CarrillonBase initializeAfterLoad!
 MidiEventTest initializeAfterLoad!
+MidiInputOutputTest initializeAfterLoad!
 
 CarrillonBase loaded!
