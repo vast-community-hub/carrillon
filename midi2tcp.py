@@ -24,7 +24,7 @@ class MidiHandler(object):
         to_send = pack('<B%sB' % (len(event)), len(event), *event)
         if self.socket is not None:
             try:
-                log("Sending:L %r" % to_send)
+                log("Sending:L %r" % (event,))
                 self.socket.send(to_send)
             except:
                 self.socket.close()
