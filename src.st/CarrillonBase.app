@@ -697,10 +697,12 @@ exampleProxyChorder
 	out := MidiOutput localProxy.
 	[	evt := in nextEvent.
 		out nextEventPut: evt.
-		evt note: evt note + 4.
-		out nextEventPut: evt.
-		evt note: evt note + 3.
-		out nextEventPut: evt.	
+		Transcript nextPutAll: 'Received '; nextPutAll: evt asByteArray printString; cr.
+		(evt isNoteOn | evt isNoteOff | evt isAftertouch) ifTrue: [ 
+			evt note: evt note + 4.
+			out nextEventPut: evt.
+			evt note: evt note + 3.
+			out nextEventPut: evt.]
 	] repeat.
 	
 	!
