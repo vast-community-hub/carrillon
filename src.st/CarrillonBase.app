@@ -678,6 +678,33 @@ nextEvent
 
 !MidiInputOutput class publicMethods !
 
+exampleProxy
+	"
+	  self exampleProxy
+	"
+	| in out |
+	in := MidiInput localProxy.
+	out := MidiOutput localProxy.
+	[out nextEventPut: in nextEvent] repeat.
+	!
+
+exampleProxyChorder
+	"
+	  self exampleProxyChorder
+	"
+	| in out evt |
+	in := MidiInput localProxy.
+	out := MidiOutput localProxy.
+	[	evt := in nextEvent.
+		out nextEventPut: evt.
+		evt note: evt note + 4.
+		out nextEventPut: evt.
+		evt note: evt note + 3.
+		out nextEventPut: evt.	
+	] repeat.
+	
+	!
+
 localProxy
 	| addr socket peer |
 	addr := SciSocketAddress fromString: self localAddress.
