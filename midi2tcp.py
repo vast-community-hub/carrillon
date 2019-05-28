@@ -8,7 +8,7 @@ TCP_PORT = 8383
 MIDI_PORT = "Midi2TCP"
 
 def log(msg):
-    print("{}: {}".format(MIDI_PORT, msg)
+    print("{}: {}".format(MIDI_PORT, msg))
 
 class MidiHandler(object):
     def __init__(self):

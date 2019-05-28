@@ -9,7 +9,7 @@ TCP_PORT  = 8384
 MIDI_PORT = "TCP2Midi"
 
 def log(msg):
-    print("{}: {}".format(MIDI_PORT, msg)
+    print("{}: {}".format(MIDI_PORT, msg))
 
 if __name__ == '__main__':
     midi = rtmidi.MidiOut()
