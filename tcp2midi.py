@@ -8,6 +8,9 @@ from struct import pack,unpack
 TCP_PORT  = 8384
 MIDI_PORT = "TCP2Midi"
 
+def log(msg):
+    print("{}: {}".format(MIDI_PORT, msg)
+
 if __name__ == '__main__':
     midi = rtmidi.MidiOut()
     device = midi.open_virtual_port(MIDI_PORT)
@@ -19,7 +22,7 @@ if __name__ == '__main__':
     client_s = None
 
     try:
-        print("Listening at port %d" % TCP_PORT)
+        log("Listening at port %d" % TCP_PORT)
         while 1:
             if client_s is not None:
                 r = [s, client_s]
@@ -30,24 +33,24 @@ if __name__ == '__main__':
             if s in r:
                 if client_s:
                     client_s.close()
-                    print("Connection forcefully closed (%s)" % (client_addr,))
+                    log("Connection forcefully closed (%s)" % (client_addr,))
                 client_s, client_addr = s.accept()
-                print("Received connection from: %s" % (client_addr, ))
+                log("Received connection from: %s" % (client_addr, ))
             if client_s in r:
                 count = client_s.recv(1)
                 if not count:
-                    print("Connection closed (%s)" % (client_addr,))
+                    log("Connection closed (%s)" % (client_addr,))
                     client_s.close()
                     client_s = None
                 else:
                     count = unpack('B', count)[0]
-                    print("Received %d bytes" % count)
+                    log("Received %d bytes" % count)
                     data = client_s.recv(count)
                     if count == len(data):
                         data = unpack('{}B'.format(count), data)
-                        print("Received %r" % (data,))
+                        log("Received %r" % (data,))
                         device.send_message(data)
                     else:
-                        print("Received malformed data %r" % (data,))
+                        log("Received malformed data %r" % (data,))
     finally:
         device.close_port()

@@ -7,6 +7,9 @@ from struct import pack
 TCP_PORT = 8383
 MIDI_PORT = "Midi2TCP"
 
+def log(msg):
+    print("{}: {}".format(MIDI_PORT, msg)
+
 class MidiHandler(object):
     def __init__(self):
         self.socket = None
@@ -21,15 +24,15 @@ class MidiHandler(object):
         to_send = pack('<B%sB' % (len(event)), len(event), *event)
         if self.socket is not None:
             try:
-                print("Sending:L %r" % to_send)
+                log("Sending:L %r" % to_send)
                 self.socket.send(to_send)
             except:
                 self.socket.close()
                 self.set_socket(None)
-                print("Connection closed")
+                log("Connection closed")
                 raise
         else:
-            print("Not sending:L %r" % to_send)
+            log("Not sending:L %r" % to_send)
 
 if __name__ == '__main__':
     midi = rtmidi.MidiIn()
@@ -44,9 +47,9 @@ if __name__ == '__main__':
 
     try:
         while 1:
-            print("Listening at port %d" % TCP_PORT)
+            log("Listening at port %d" % TCP_PORT)
             client = s.accept()
-            print("Received connection from: %s" % (client[1],))
+            log("Received connection from: %s" % (client[1],))
             handler.set_socket(client[0])
 
     finally:
