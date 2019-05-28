@@ -5,6 +5,7 @@ import socket
 from struct import pack
 
 TCP_PORT = 8383
+MIDI_PORT = "Midi2TCP"
 
 class MidiHandler(object):
     def __init__(self):
@@ -34,7 +35,7 @@ if __name__ == '__main__':
     midi = rtmidi.MidiIn()
     handler = MidiHandler()
     midi.set_callback(handler)
-    device = midi.open_virtual_port('Carrillon')
+    device = midi.open_virtual_port(MIDI_PORT)
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
