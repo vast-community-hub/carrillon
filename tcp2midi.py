@@ -8,30 +8,6 @@ from struct import pack,unpack
 TCP_PORT  = 8384
 MIDI_PORT = "TCP2Midi"
 
-class TCPClient(object):
-    def __init__(self):
-        self.socket = None
-
-    def set_socket(self, sock):
-        if self.socket is not None:
-            self.socket.close()
-        self.socket = sock
-
-    def __call__(self, event, data):
-        event, deltatime = event
-        to_send = pack('<B%sB' % (len(event)), len(event), *event)
-        if self.socket is not None:
-            try:
-                print("Sending:L %r" % to_send)
-                self.socket.send(to_send)
-            except:
-                self.socket.close()
-                self.set_socket(None)
-                print("Connection closed")
-                raise
-        else:
-            print("Not sending:L %r" % to_send)
-
 if __name__ == '__main__':
     midi = rtmidi.MidiOut()
     device = midi.open_virtual_port(MIDI_PORT)
