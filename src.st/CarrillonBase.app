@@ -76,9 +76,23 @@ MidiEvent subclass: #MidiEventSystemMessage
     poolDictionaries: ''!
 
 CarrillonBase becomeDefault!
-Object subclass: #MidiInput
+Object subclass: #MidiInputOutput
     classInstanceVariableNames: ''
     instanceVariableNames: 'peer '
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiInputOutput subclass: #MidiInput
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''!
+
+CarrillonBase becomeDefault!
+MidiInputOutput subclass: #MidiOutput
+    classInstanceVariableNames: ''
+    instanceVariableNames: ''
     classVariableNames: ''
     poolDictionaries: ''!
 
@@ -130,12 +144,6 @@ fromArray: bytes
 	class := self classForMessage:message.
 	^(class argument: argument) fromBytes: bytes allButFirst
 	!
-
-fromStream: peer
-	| count bytes |
-	count := peer next.
-	bytes := peer next: count.
-	^self fromArray: bytes!
 
 message
 	^self subclassResponsibility! !
@@ -657,15 +665,8 @@ testSystemMessageTypes
 
 !MidiInput class publicMethods !
 
-localProxy
-	| addr socket peer |
-	addr := SciSocketAddress fromString: '127.0.0.1:8383'.
-	socket := SciSocket newStreamSocket connect: addr.
-	peer := SstSocketStream on: socket.
-	^self peer: peer.!
-
-peer: strm
-	^self new peer: strm! !
+localAddress
+	^'127.0.0.1:8383'! !
 
 !MidiInput publicMethods !
 
@@ -673,7 +674,21 @@ nextEvent
 	| count bytes |
 	count := peer next.
 	bytes := peer next: count.
-	^MidiEvent fromArray: bytes!
+	^MidiEvent fromArray: bytes! !
+
+!MidiInputOutput class publicMethods !
+
+localProxy
+	| addr socket peer |
+	addr := SciSocketAddress fromString: self localAddress.
+	socket := SciSocket newStreamSocket connect: addr.
+	peer := SstSocketStream on: socket.
+	^self peer: peer!
+
+peer: strm
+	^self new peer: strm! !
+
+!MidiInputOutput publicMethods !
 
 peer: aStream
 	peer := aStream! !
@@ -688,7 +703,31 @@ testInputSimple
 	evt  := input nextEvent.
 	self
 		assert: evt isNoteOff;
-		assert: evt channel equals: 2.! !
+		assert: evt channel equals: 2;
+		assert: evt note equals: 1;
+		assert: evt pressure equals: 2.!
+
+testOutputSimple
+	| strm evt output bytes |
+	evt := MidiEventNoteOff channel: 2 note: 1 pressure: 2.
+	strm := ReadWriteStream on: (ByteArray new: 4).
+	output := MidiOutput peer: strm.
+	output nextEventPut: evt.
+	bytes := strm reset; upToEnd.
+	self assert: bytes equals: #[3 16r81 1 2].
+	! !
+
+!MidiOutput class publicMethods !
+
+localAddress
+	^'127.0.0.1:8384'! !
+
+!MidiOutput publicMethods !
+
+nextEventPut: aMidiEvent
+	| bytes |
+	bytes := aMidiEvent asByteArray.
+	peer nextPut: bytes size; nextPutAll: bytes; flush! !
 
 MidiEvent initializeAfterLoad!
 MidiEventChannelPressure initializeAfterLoad!
@@ -700,7 +739,9 @@ MidiEventNoteOn initializeAfterLoad!
 MidiEventPitchBend initializeAfterLoad!
 MidiEventProgramChange initializeAfterLoad!
 MidiEventSystemMessage initializeAfterLoad!
+MidiInputOutput initializeAfterLoad!
 MidiInput initializeAfterLoad!
+MidiOutput initializeAfterLoad!
 CarrillonBase initializeAfterLoad!
 MidiEventTest initializeAfterLoad!
 MidiInputOutputTest initializeAfterLoad!
