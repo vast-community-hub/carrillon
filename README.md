@@ -1,5 +1,10 @@
 # carrillon
-This code runs in a Raspberry Pi Zero, and controlls an 18 bells pneumatic setup, using two [IO Pi Zero boards](https://www.abelectronics.co.uk/p/71/io-pi-zero) and then a driver module composed of triacs.
+This code runs in a Raspberry Pi Zero, and controlls an 18 bells pneumatic bell tower, using two [IO Pi Zero boards](https://www.abelectronics.co.uk/p/71/io-pi-zero) and then a driver module composed of triacs.
+
+The bell tower is located in La Fiesta Nacional de la Flor in Escobar, Buenos Aires, Argentina.
+
+!(doc/Carrillon-Escobar-1.jpg)
+!(doc/Carrillon-Escobar-2.jpg)
 
 Most of the "system" is implemented in [carrillon.py](carrillon.py), where Midi events are translated into GPIOs and also "menu options" to control the system to do things like recording a song, replaying a song, turning on and off the main air pressure pump, resetting the system or live playback.
 
