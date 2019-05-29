@@ -3,8 +3,13 @@ This code runs in a Raspberry Pi Zero, and controlls an 18 bells pneumatic bell 
 
 The bell tower is located in La Fiesta Nacional de la Flor in Escobar, Buenos Aires, Argentina.
 
-!(doc/Carrillon-Escobar-1.jpg)
-!(doc/Carrillon-Escobar-2.jpg)
+![escobar-1](doc/Carrillon-Escobar-1.jpg)
+![escobar-2](doc/Carrillon-Escobar-2.jpg)
+
+And this is the setup. 24 channels controller driven by a RaspberryPi using two IO Pi Zero hats, and the MIDI Keyboard connected to the setup, so we can play live, and also record songs.
+
+![Pi-Controller](doc/Pi-Controller.jpg)
+![Keyboard-Controller](doc/Keyboard-Controller.jpg)
 
 Most of the "system" is implemented in [carrillon.py](carrillon.py), where Midi events are translated into GPIOs and also "menu options" to control the system to do things like recording a song, replaying a song, turning on and off the main air pressure pump, resetting the system or live playback.
 
