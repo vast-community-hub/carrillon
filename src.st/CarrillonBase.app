@@ -747,7 +747,7 @@ exampleProxyChorder
 			out nextEventPut: evt.
 			evt note: evt note + 3.
 			out nextEventPut: evt.]
-	] repeat] forkAt: Processor userBackgroundPriority.
+	] repeat] forkAt: Processor userBackgroundPriority named: self name.
 	
 	!
 
