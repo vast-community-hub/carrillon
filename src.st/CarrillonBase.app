@@ -314,11 +314,11 @@ note: anInteger
 	note := anInteger!
 
 noteFullName
-	^self noteName asString, self octave asString!
+	^self noteName, self octave asString!
 
 noteName
 	" 0 is Ce "
-	^'CCDDEFFGGAAB' at: self note \\ 12 + 1!
+	^#('C' 'C#' 'D' 'D#' 'E' 'F' 'F#' 'G' 'G#' 'A' 'A#' 'B') at: self note \\ 12 + 1!
 
 octave
 	" 12 semi-tones per octave "
@@ -554,11 +554,11 @@ testNoteFullName
 testNoteName
 	| evt |
 	evt := MidiEventNoteOn channel: 0 note: 60 pressure: 0.
-	self assert: evt noteName equals: $C.
-	evt note: 0.
-	self assert: evt noteName equals: $C.
+	self assert: evt noteName equals: 'C'.
+	evt note: 1.
+	self assert: evt noteName equals: 'C#'.
 	evt note: 127.
-	self assert: evt noteName equals: $G.
+	self assert: evt noteName equals: 'G'.
 !
 
 testNoteOctave
@@ -643,6 +643,16 @@ testPrintOn
 	self assert: evt printString equals: 'a MidiEventNoteOff C-1'.
 	evt := MidiEventAftertouch channel: 0 note:127 pressure: 0.
 	self assert: evt printString equals: 'a MidiEventAftertouch G9'.
+!
+
+testPrintOnSharp
+	| evt |
+	evt := MidiEventNoteOn channel: 0 note: 61 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventNoteOn C#4'.
+	evt := MidiEventNoteOff channel: 0 note: 1 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventNoteOff C#-1'.
+	evt := MidiEventAftertouch channel: 0 note:126 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventAftertouch F#9'.
 !
 
 testProgramChange
