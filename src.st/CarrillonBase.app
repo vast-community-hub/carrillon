@@ -313,11 +313,26 @@ note
 note: anInteger
 	note := anInteger!
 
+noteFullName
+	^self noteName asString, self octave asString!
+
+noteName
+	" 0 is Ce "
+	^'CCDDEFFGGAAB' at: self note \\ 12 + 1!
+
+octave
+	" 12 semi-tones per octave "
+	^self note // 12 - 1!
+
 pressure
 	^pressure!
 
 pressure: anObject
-	pressure := anObject! !
+	pressure := anObject!
+
+printOn: strm
+	super printOn: strm.
+	strm space; nextPutAll: self noteFullName! !
 
 !MidiEventPitchBend class publicMethods !
 
@@ -526,6 +541,36 @@ testFromArray
 		assert: evt data first equals: 12;
 		assert: evt data second equals: 42.!
 
+testNoteFullName
+	| evt |
+	evt := MidiEventNoteOn channel: 0 note: 60 pressure: 0.
+	self assert: evt noteFullName equals: 'C4'.
+	evt note: 0.
+	self assert: evt noteFullName equals: 'C-1'.
+	evt note: 127.
+	self assert: evt noteFullName equals: 'G9'.
+!
+
+testNoteName
+	| evt |
+	evt := MidiEventNoteOn channel: 0 note: 60 pressure: 0.
+	self assert: evt noteName equals: $C.
+	evt note: 0.
+	self assert: evt noteName equals: $C.
+	evt note: 127.
+	self assert: evt noteName equals: $G.
+!
+
+testNoteOctave
+	| evt |
+	evt := MidiEventNoteOn channel: 0 note: 60 pressure: 0.
+	self assert: evt octave equals: 4.
+	evt note: 0.
+	self assert: evt octave equals: -1.
+	evt note: 127.
+	self assert: evt octave equals: 9.
+!
+
 testNoteOff
 	| evt  |
 	evt := self eventWith: 16r83 with: 100 with: 101.
@@ -588,6 +633,16 @@ testPitchBendCreation
 		assert: evt pitch equals: 101;
 		deny: evt isNoteOff.
 	self assert: evt asByteArray equals: #[16rE1  101].
+!
+
+testPrintOn
+	| evt |
+	evt := MidiEventNoteOn channel: 0 note: 60 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventNoteOn C4'.
+	evt := MidiEventNoteOff channel: 0 note: 0 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventNoteOff C-1'.
+	evt := MidiEventAftertouch channel: 0 note:127 pressure: 0.
+	self assert: evt printString equals: 'a MidiEventAftertouch G9'.
 !
 
 testProgramChange
@@ -686,7 +741,7 @@ exampleProxyChorder
 	out := MidiOutput localProxy.
 	[	evt := in nextEvent.
 		out nextEventPut: evt.
-		TranscriptTTY default nextPutAll: 'Received '; nextPutAll: evt asByteArray printString; cr.
+		TranscriptTTY default nextPutAll: 'Received '; nextPutAll: evt printString; cr.
 		(evt isNoteOn | evt isNoteOff | evt isAftertouch) ifTrue: [ 
 			evt note: evt note + 4.
 			out nextEventPut: evt.
