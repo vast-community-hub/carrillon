@@ -1,7 +1,7 @@
 
 
 Application create: #CarrillonBase with:
-    (#( AbtViewApplication SUnit)
+    (#( GreaseVASTCoreApp SstSocketCommunications SUnit)
         collect: [:each | Smalltalk at: each ifAbsent: [
             Application errorPrerequisite: #CarrillonBase missing: each]])!
 
@@ -526,17 +526,6 @@ testFromArray
 		assert: evt data first equals: 12;
 		assert: evt data second equals: 42.!
 
-testFromStream
-	| strm  evt |
-	strm := ReadStream on: #[3 16rF5 12 42].
-	evt := MidiEvent fromStream: strm.
-	self
-		assert: evt argument equals: 5;
-		assert: evt message equals: 16rF0;
-		assert: evt data size equals: 2;
-		assert: evt data first equals: 12;
-		assert: evt data second equals: 42.!
-
 testNoteOff
 	| evt  |
 	evt := self eventWith: 16r83 with: 100 with: 101.
@@ -697,7 +686,7 @@ exampleProxyChorder
 	out := MidiOutput localProxy.
 	[	evt := in nextEvent.
 		out nextEventPut: evt.
-		Transcript nextPutAll: 'Received '; nextPutAll: evt asByteArray printString; cr.
+		TranscriptTTY default nextPutAll: 'Received '; nextPutAll: evt asByteArray printString; cr.
 		(evt isNoteOn | evt isNoteOff | evt isAftertouch) ifTrue: [ 
 			evt note: evt note + 4.
 			out nextEventPut: evt.
