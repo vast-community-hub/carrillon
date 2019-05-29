@@ -739,15 +739,15 @@ exampleProxyChorder
 	| in out evt |
 	in := MidiInput localProxy.
 	out := MidiOutput localProxy.
-	[	evt := in nextEvent.
+	[[	evt := in nextEvent.
 		out nextEventPut: evt.
-		TranscriptTTY default nextPutAll: 'Received '; nextPutAll: evt printString; cr.
+		Transcript nextPutAll: 'Received '; nextPutAll: evt printString; cr.
 		(evt isNoteOn | evt isNoteOff | evt isAftertouch) ifTrue: [ 
 			evt note: evt note + 4.
 			out nextEventPut: evt.
 			evt note: evt note + 3.
 			out nextEventPut: evt.]
-	] repeat.
+	] repeat] forkAt: Processor userBackgroundPriority.
 	
 	!
 
