@@ -1,7 +1,7 @@
 
 
 Application create: #CarrillonBase with:
-    (#( GreaseVASTCoreApp SstSocketCommunications SUnit)
+    (#( SstSocketCommunications SUnit)
         collect: [:each | Smalltalk at: each ifAbsent: [
             Application errorPrerequisite: #CarrillonBase missing: each]])!
 
@@ -739,7 +739,7 @@ exampleProxy
 	| in out |
 	in := MidiInput localProxy.
 	out := MidiOutput localProxy.
-	[out nextEventPut: in nextEvent] repeat.
+	[true] whileTrue: [out nextEventPut: in nextEvent].
 	!
 
 exampleProxyChorder
@@ -749,7 +749,8 @@ exampleProxyChorder
 	| in out evt |
 	in := MidiInput localProxy.
 	out := MidiOutput localProxy.
-	[[	evt := in nextEvent.
+	[[true] whileTrue: [
+		evt := in nextEvent.
 		out nextEventPut: evt.
 		Transcript nextPutAll: 'Received '; nextPutAll: evt printString; cr.
 		(evt isNoteOn | evt isNoteOff | evt isAftertouch) ifTrue: [ 
@@ -757,7 +758,7 @@ exampleProxyChorder
 			out nextEventPut: evt.
 			evt note: evt note + 3.
 			out nextEventPut: evt.]
-	] repeat] forkAt: Processor userBackgroundPriority named: self name.
+	]] forkAt: Processor userBackgroundPriority named: self name.
 	
 	!
 
@@ -766,7 +767,9 @@ localProxy
 	addr := SciSocketAddress fromString: self localAddress.
 	socket := SciSocket newStreamSocket connect: addr.
 	peer := SstSocketStream on: socket.
-	^self peer: peer!
+	^self peer: peer
+
+!
 
 peer: strm
 	^self new peer: strm! !
