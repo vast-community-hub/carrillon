@@ -43,6 +43,8 @@ escobar
 	gpioInterface := RaspberryGpioDaemonInterface raspberryGpioStart.
 	dev1 := gpioInterface createI2cDevice: I2CDeviceGPIOMCP23017 slaveAddress:16r20.
 	dev2 := gpioInterface createI2cDevice: I2CDeviceGPIOMCP23017 slaveAddress:16r21.
+	dev1 allOutputs.
+	dev2 allOutputs.
 	^ self escobarOn: dev1 and: dev2!
 
 escobarForTesting
@@ -83,7 +85,7 @@ initialize
 	notes := Dictionary new!
 
 midiLoop
-	" self escobarForTesting midiLoop "
+	" ([self escobarForTesting midiLoop] forkAt: Processor userBackgroundPriority) inspect."
 	| input |
 	input := MidiInput localProxy.
 	[true] whileTrue: [
