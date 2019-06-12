@@ -1,7 +1,7 @@
 
 
 Application create: #CarrillonBase with:
-    (#( CarrillonHardware)
+    (#( CarrillonHardware Midi)
         collect: [:each | Smalltalk at: each ifAbsent: [
             Application errorPrerequisite: #CarrillonBase missing: each]])!
 
@@ -45,6 +45,12 @@ escobar
 	dev2 := gpioInterface createI2cDevice: I2CDeviceGPIOMCP23017 slaveAddress:16r21.
 	^ self escobarOn: dev1 and: dev2!
 
+escobarForTesting
+	| dev1 dev2 |
+	dev1 := I2CDeviceGPIOMCP23017 forTesting.
+	dev2 := I2CDeviceGPIOMCP23017 forTesting.
+	^ self escobarOn: dev1 and: dev2!
+
 escobarOn: gpioDevice1 and: gpioDevice2
 	| pinOrder answer baseNote port |
 	answer := self new.
@@ -73,15 +79,20 @@ bestFor: midiNote
 				closest := self closestMidiFor:midiNote.
 				notes at: closest]!
 
-closestMidiFor:midiNote
-	| candidates octave |
-	octave := 12.
-	candidates := notes keys select: [:each |
-		(each \\ octave) = (midiNote \\ octave)].
-	^(candidates sorted: [:a :b | (a - midiNote) abs < (b - midiNote) abs]) first!
-
 initialize
 	notes := Dictionary new!
+
+midiLoop
+	" self escobarForTesting midiLoop "
+	| input |
+	input := MidiInput localProxy.
+	[true] whileTrue: [
+		| event |
+		event := input nextEvent.
+		Transcript nextPutAll: event printString; cr.
+		event isNoteOn ifTrue: [
+			self play: event note]
+	]!
 
 notes
 	^notes!
@@ -90,6 +101,15 @@ play: midiNote
 	| note |
 	note := self bestFor:midiNote.
 	note pulseForMilliseconds: 500.! !
+
+!CarrillonMidiInstrument privateMethods !
+
+closestMidiFor:midiNote
+	| candidates octave |
+	octave := 12.
+	candidates := notes keys select: [:each |
+		(each \\ octave) = (midiNote \\ octave)].
+	^(candidates sorted: [:a :b | (a - midiNote) abs < (b - midiNote) abs]) first! !
 
 !CarrillonMidiInstrumentTest publicMethods !
 
