@@ -115,6 +115,17 @@ To enter the web interface, you can do it through the webserver running in VAST 
 To enter from the browser without nginx: `http://localhost:9999/carrillon`. With nginx: `http://localhost:6767/carrillon`
 
 
+### Preparing the RaspberryPi
+
+The Raspberry must be prepare for running VAST and pigpio. For more details see [this post](https://marianopeck.wordpress.com/2019/06/07/beginners-guide-to-gpio-in-vasmalltalk/).
+
+If you want to access the GPIOS of the Pi remotely, you should read [this post](https://marianopeck.wordpress.com/2019/06/11/va-smalltalk-remote-controlling-raspberry-pis-from-across-the-world/). You will notice that you must enable remote GPIO on Raspbian as well as running the daemon like this:
+
+```
+sudo pigpiod 8888
+```
+
+
 ### Preparing everything for a smooth testing experience
 
 On development, it's nice to have sound aside from seeing the notes printed into the Transcript or powering up some leds. For that, open a terminal and run:
@@ -130,4 +141,30 @@ cd $CARRILLON_GIT_ROOT
 python3 tcp2midi.py & python3 midi2tcp.py
 ```
 
-On a third terminal, do a `aconnect -l` and identify the port numbers of `Midi Through`, `Midi2TCP` and `Synth input port`. In this example, we will assume they respectively are `14:0`, `128:0` and `130:0`.
+On a third terminal, do a `aconnect -l` and identify the port numbers of `Midi Through`, `Midi2TCP` and `Synth input port`. In this example, we will assume they respectively are `14:0`, `128:0` and `130:0`. So, you can do:
+
+```
+aconnect 14:0 128:0
+aconnect 14:0 130:0
+```
+
+And then, in the `CarrillonConfiguration` be sure to do `midiPortName: 'Midi Through'`. You can validate its working by doing:
+
+```
+aplaymidi --port 14:0 "$CARRILLON_GIT_ROOT/web/files/Metallica - Nothing Else Matters.mid"
+```
+
+If you are accessing the Raspberry Pi remotely, then you must open another terminal and create a SSH tunnel to it:
+
+```
+ssh -v -t -YC -p NNNN pi@'YYY.YYY.YYY.YYYY' -L 8888:127.0.0.1:8888
+```
+
+Finally, you must run the Smalltalk TCP MIDI server (read how to load `CarrillonBase`) on the same VAST development machine. You must also specify the IP and PORT of your remote Raspberry Pi:
+
+```
+RaspberryGpioDaemonInterface defaultIP: '127.0.0.1' andPort: '8888'.
+([ CarrillonMidiInstrument escobar midiLoop ] forkAt: Processor userBackgroundPriority) inspect.
+```
+
+Now you should be able to play the songs from the web interface.
