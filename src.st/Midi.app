@@ -128,11 +128,11 @@ fromArray: bytes
 message
 	^self subclassResponsibility! !
 
-MidiEvent class categoriesFor: #'argument:' are: #('Not categorized')!
-MidiEvent class categoriesFor: #'channel:' are: #('Not categorized')!
-MidiEvent class categoriesFor: #'classForMessage:' are: #('Not categorized')!
-MidiEvent class categoriesFor: #'fromArray:' are: #('Not categorized')!
-MidiEvent class categoriesFor: #'message' are: #('Not categorized')!
+MidiEvent class categoriesFor: #'argument:' are: #('instance creation')!
+MidiEvent class categoriesFor: #'channel:' are: #('instance creation')!
+MidiEvent class categoriesFor: #'classForMessage:' are: #('factory')!
+MidiEvent class categoriesFor: #'fromArray:' are: #('instance creation')!
+MidiEvent class categoriesFor: #'message' are: #('factory')!
 
 !MidiEvent publicMethods !
 
@@ -203,14 +203,14 @@ MidiEvent categoriesFor: #'status' are: #('accessing')!
 message
 	^16rA0! !
 
-MidiEventAftertouch class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventAftertouch class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventAftertouch publicMethods !
 
 isAftertouch
 	^true! !
 
-MidiEventAftertouch categoriesFor: #'isAftertouch' are: #('Not categorized')!
+MidiEventAftertouch categoriesFor: #'isAftertouch' are: #('testing')!
 
 !MidiEventChannelPressure class publicMethods !
 
@@ -220,8 +220,8 @@ channel: channel pressure: pressure
 message
 	^16rD0! !
 
-MidiEventChannelPressure class categoriesFor: #'channel:pressure:' are: #('Not categorized')!
-MidiEventChannelPressure class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventChannelPressure class categoriesFor: #'channel:pressure:' are: #('instance creation')!
+MidiEventChannelPressure class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventChannelPressure publicMethods !
 
@@ -241,11 +241,11 @@ pressure
 pressure: anInteger
 	pressure := anInteger! !
 
-MidiEventChannelPressure categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventChannelPressure categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventChannelPressure categoriesFor: #'isChannelPressure' are: #('Not categorized')!
-MidiEventChannelPressure categoriesFor: #'pressure' are: #('Not categorized')!
-MidiEventChannelPressure categoriesFor: #'pressure:' are: #('Not categorized')!
+MidiEventChannelPressure categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventChannelPressure categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventChannelPressure categoriesFor: #'isChannelPressure' are: #('testing')!
+MidiEventChannelPressure categoriesFor: #'pressure' are: #('accessing')!
+MidiEventChannelPressure categoriesFor: #'pressure:' are: #('accessing')!
 
 !MidiEventControlChange class publicMethods !
 
@@ -257,8 +257,8 @@ channel: channel controller: controller value: value
 message
 	^16rB0! !
 
-MidiEventControlChange class categoriesFor: #'channel:controller:value:' are: #('Not categorized')!
-MidiEventControlChange class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventControlChange class categoriesFor: #'channel:controller:value:' are: #('instance creation')!
+MidiEventControlChange class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventControlChange publicMethods !
 
@@ -285,41 +285,41 @@ value
 value: anInteger
 	value := anInteger! !
 
-MidiEventControlChange categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'controller' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'controller:' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'isControlChange' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'value' are: #('Not categorized')!
-MidiEventControlChange categoriesFor: #'value:' are: #('Not categorized')!
+MidiEventControlChange categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventControlChange categoriesFor: #'controller' are: #('accessing')!
+MidiEventControlChange categoriesFor: #'controller:' are: #('accessing')!
+MidiEventControlChange categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventControlChange categoriesFor: #'isControlChange' are: #('testing')!
+MidiEventControlChange categoriesFor: #'value' are: #('accessing')!
+MidiEventControlChange categoriesFor: #'value:' are: #('accessing')!
 
 !MidiEventNoteOff class publicMethods !
 
 message
 	^16r80! !
 
-MidiEventNoteOff class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventNoteOff class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventNoteOff publicMethods !
 
 isNoteOff
 	^true! !
 
-MidiEventNoteOff categoriesFor: #'isNoteOff' are: #('Not categorized')!
+MidiEventNoteOff categoriesFor: #'isNoteOff' are: #('testing')!
 
 !MidiEventNoteOn class publicMethods !
 
 message
 	^16r90! !
 
-MidiEventNoteOn class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventNoteOn class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventNoteOn publicMethods !
 
 isNoteOn
 	^true! !
 
-MidiEventNoteOn categoriesFor: #'isNoteOn' are: #('Not categorized')!
+MidiEventNoteOn categoriesFor: #'isNoteOn' are: #('testing')!
 
 !MidiEventOnOffAftertouch class publicMethods !
 
@@ -331,8 +331,8 @@ channel: channel note: note pressure: pressure
 message
 	^nil! !
 
-MidiEventOnOffAftertouch class categoriesFor: #'channel:note:pressure:' are: #('Not categorized')!
-MidiEventOnOffAftertouch class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventOnOffAftertouch class categoriesFor: #'channel:note:pressure:' are: #('instance creation')!
+MidiEventOnOffAftertouch class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventOnOffAftertouch publicMethods !
 
@@ -371,16 +371,16 @@ printOn: strm
 	super printOn: strm.
 	strm space; nextPutAll: self noteFullName! !
 
-MidiEventOnOffAftertouch categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'note' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'note:' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'noteFullName' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'noteName' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'octave' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'pressure' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'pressure:' are: #('Not categorized')!
-MidiEventOnOffAftertouch categoriesFor: #'printOn:' are: #('Not categorized')!
+MidiEventOnOffAftertouch categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventOnOffAftertouch categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventOnOffAftertouch categoriesFor: #'note' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'note:' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'noteFullName' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'noteName' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'octave' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'pressure' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'pressure:' are: #('accessing')!
+MidiEventOnOffAftertouch categoriesFor: #'printOn:' are: #('printing')!
 
 !MidiEventPitchBend class publicMethods !
 
@@ -390,8 +390,8 @@ channel: channel pitch: pitch
 message
 	^16rE0! !
 
-MidiEventPitchBend class categoriesFor: #'channel:pitch:' are: #('Not categorized')!
-MidiEventPitchBend class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventPitchBend class categoriesFor: #'channel:pitch:' are: #('instance creation')!
+MidiEventPitchBend class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventPitchBend publicMethods !
 
@@ -411,11 +411,11 @@ pitch
 pitch: anObject
 	pitch := anObject! !
 
-MidiEventPitchBend categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventPitchBend categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventPitchBend categoriesFor: #'isPitchBend' are: #('Not categorized')!
-MidiEventPitchBend categoriesFor: #'pitch' are: #('Not categorized')!
-MidiEventPitchBend categoriesFor: #'pitch:' are: #('Not categorized')!
+MidiEventPitchBend categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventPitchBend categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventPitchBend categoriesFor: #'isPitchBend' are: #('testing')!
+MidiEventPitchBend categoriesFor: #'pitch' are: #('accessing')!
+MidiEventPitchBend categoriesFor: #'pitch:' are: #('accessing')!
 
 !MidiEventProgramChange class publicMethods !
 
@@ -425,8 +425,8 @@ channel: channel program: program
 message
 	^16rC0! !
 
-MidiEventProgramChange class categoriesFor: #'channel:program:' are: #('Not categorized')!
-MidiEventProgramChange class categoriesFor: #'message' are: #('Not categorized')!
+MidiEventProgramChange class categoriesFor: #'channel:program:' are: #('instance creation')!
+MidiEventProgramChange class categoriesFor: #'message' are: #('factory')!
 
 !MidiEventProgramChange publicMethods !
 
@@ -446,11 +446,11 @@ program
 program: anInteger
 	program := anInteger! !
 
-MidiEventProgramChange categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventProgramChange categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventProgramChange categoriesFor: #'isProgramChange' are: #('Not categorized')!
-MidiEventProgramChange categoriesFor: #'program' are: #('Not categorized')!
-MidiEventProgramChange categoriesFor: #'program:' are: #('Not categorized')!
+MidiEventProgramChange categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventProgramChange categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventProgramChange categoriesFor: #'isProgramChange' are: #('testing')!
+MidiEventProgramChange categoriesFor: #'program' are: #('accessing')!
+MidiEventProgramChange categoriesFor: #'program:' are: #('accessing')!
 
 !MidiEventSystemMessage class publicMethods !
 
@@ -460,8 +460,8 @@ message
 type: type data: aByteArray
 	^(self argument: type) data: aByteArray! !
 
-MidiEventSystemMessage class categoriesFor: #'message' are: #('Not categorized')!
-MidiEventSystemMessage class categoriesFor: #'type:data:' are: #('Not categorized')!
+MidiEventSystemMessage class categoriesFor: #'message' are: #('factory')!
+MidiEventSystemMessage class categoriesFor: #'type:data:' are: #('instance creation')!
 
 !MidiEventSystemMessage publicMethods !
 
@@ -514,21 +514,21 @@ isUndefined2
 type
 	^argument! !
 
-MidiEventSystemMessage categoriesFor: #'asByteArray' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'data' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'data:' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'fromBytes:' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isActiveSensing' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isReset' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isSequenceContinue' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isSequenceStart' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isSequenceStop' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isSystemMessage' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isTimingClock' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isUndefined' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isUndefined1' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'isUndefined2' are: #('Not categorized')!
-MidiEventSystemMessage categoriesFor: #'type' are: #('Not categorized')!
+MidiEventSystemMessage categoriesFor: #'asByteArray' are: #('converting')!
+MidiEventSystemMessage categoriesFor: #'data' are: #('accessing')!
+MidiEventSystemMessage categoriesFor: #'data:' are: #('accessing')!
+MidiEventSystemMessage categoriesFor: #'fromBytes:' are: #('initialization')!
+MidiEventSystemMessage categoriesFor: #'isActiveSensing' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isReset' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isSequenceContinue' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isSequenceStart' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isSequenceStop' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isSystemMessage' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isTimingClock' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isUndefined' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isUndefined1' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'isUndefined2' are: #('testing')!
+MidiEventSystemMessage categoriesFor: #'type' are: #('accessing')!
 
 !MidiInput class publicMethods !
 
