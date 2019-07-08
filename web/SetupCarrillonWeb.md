@@ -41,8 +41,9 @@ The libraries installed on the OS will depend on what we want to test exactly. B
 ```
 # For python MIDI and sound support
 sudo python3 -m pip uninstall pip && sudo apt install python3-pip --reinstall
-sudo apt-get install -y fluidsynth vmpk libasound2-dev libjack-dev python3-pip python3-setuptools python3-dev
+sudo apt-get install -y libasound2-dev libjack-dev python3-pip python3-setuptools python3-dev
 sudo pip3 install python-rtmidi
+sudo apt-get install -y fluidsynth vmpk
 
 # For web deployment
 sudo apt-get install -y nginx
