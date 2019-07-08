@@ -3,7 +3,10 @@
 carrillonScript="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 carrillonRoot="$(dirname "$carrillonScript")"
 
-pkill -f 'fluidsynth'
-pkill -f 'midi2tcp.py'
-ssh -fN -p 22 pi@campstpiz0.local 'sudo killall pigpiod'
-pkill -9 -f 'ssh -N -YC -p 22 pi@'
+echo "ROOT: $carrillonRoot"
+
+echo "Starting midi2tcp.py"
+python3 "$carrillonRoot/midi2tcp.py" &
+
+echo "Start pigpiod"
+sudo pigpiod 8888
