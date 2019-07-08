@@ -9,4 +9,4 @@ echo "Starting midi2tcp.py"
 python3 "$carrillonRoot/midi2tcp.py" &
 
 echo "Start pigpiod"
-sudo pigpiod 8888
+sudo pigpiod
