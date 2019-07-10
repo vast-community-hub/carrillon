@@ -10,3 +10,6 @@ python3 "$carrillonRoot/midi2tcp.py" &
 
 echo "Start pigpiod"
 sudo pigpiod
+
+echo "Start VAST"
+$carrillonRoot/deploy/app/startCarrillonVAST.sh

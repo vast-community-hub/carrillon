@@ -24,15 +24,15 @@ class MidiHandler(object):
         to_send = pack('<B%sB' % (len(event)), len(event), *event)
         if self.socket is not None:
             try:
-                log("Sending:L %r" % (event,))
+                #log("Sending:L %r" % (event,))
                 self.socket.send(to_send)
             except:
                 self.socket.close()
                 self.set_socket(None)
                 log("Connection closed")
                 raise
-        else:
-            log("Not sending:L %r" % to_send)
+        #else:
+            #log("Not sending:L %r" % to_send)
 
 if __name__ == '__main__':
     midi = rtmidi.MidiIn()
