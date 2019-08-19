@@ -21,4 +21,4 @@ echo "Starting SSH tunnel"
 ssh -fN -p 22 pi@campstpiz0.local -L 8888:127.0.0.1:8888
 
 echo "Start pigpiod in remote Pi"
-ssh -fN -p 22 pi@campstpiz0.local 'sudo pigpiod 8888'
+ssh -f -p 22 pi@campstpiz0.local 'sudo pigpiod 8888'
