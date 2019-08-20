@@ -9,3 +9,7 @@ pkill -f 'aplaymidi'
 ssh -p 22 pi@campstpiz0.local 'sudo killall pigpiod'
 pkill -9 -f 'ssh -f -p 22 pi@'
 pkill -9 -f 'ssh -fN -p 22 pi@'
+aconnect -d 14:0 128:0
+aconnect -d 14:0 129:0
+
+
