@@ -7,9 +7,13 @@ echo "ROOT: $carrillonRoot"
 
 echo "Starting midi2tcp.py"
 python3 "$carrillonRoot/midi2tcp.py" &
+sleep 3
 
 echo "Start pigpiod"
 sudo pigpiod
+
+echo "connecting Keyboard"
+aconnect 20:0 128:0
 
 echo "Start VAST"
 $carrillonRoot/deploy/app/startCarrillonVAST.sh
