@@ -15,6 +15,8 @@
  ) do: [:each | (EmConfigurationMap editionsFor: each) first loadWithRequiredMaps ].
 
 
+"You must have Tonel tools loaded, available at <https://github.com/vasmalltalk/tonel-vast>"
+
 reader := TonelReader new readPackagesFrom: ((CfsPath named: CfsDirectoryDescriptor getcwd) append: '../carrillon/').
  (TonelLoader on:  reader) 
 	loadApplicationsNamed: 
