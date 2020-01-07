@@ -7,6 +7,7 @@ import IOPi
 import termios
 import threading
 
+
 TONG_DELAY = 0.50
 
 class Nota(object):
