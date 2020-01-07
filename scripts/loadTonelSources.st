@@ -15,7 +15,10 @@
 
 
 reader := TonelReader new readPackagesFrom: (CfsPath named: 'z:\Instantiations\carrillon\carrillon\').
- (TonelLoader on:  reader) 
+ (TonelLoader on: reader) 
+	useComputedPrerequisites;
+	useGitVersion;
+	useLatestBaseEditions;
 	loadApplicationsNamed: 
 		#(
 		'Midi'

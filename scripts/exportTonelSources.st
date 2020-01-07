@@ -13,7 +13,7 @@ apps := OrderedCollection new
 			yourself.
 
 TonelWriter new
+	useCrLfEOL;
 	clearsSourcesDirectory: true;
 	writeProjectIncluding: apps
 	into: (CfsPath named: 'z:\Instantiations\carrillon\carrillon\')
-	
