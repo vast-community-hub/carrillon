@@ -271,5 +271,4 @@ RaspberryGpioDaemonFunctions class >> initialize [
 	WaveTxAt := PlatformFunction fromArray: #('C' 'wave_tx_at' nil 'RaspberryGpioDaemon' #(#int32) #int32).
 	WaveTxBusy := PlatformFunction fromArray: #('C' 'wave_tx_busy' nil 'RaspberryGpioDaemon' #(#int32) #int32).
 	WaveTxStop := PlatformFunction fromArray: #('C' 'wave_tx_stop' nil 'RaspberryGpioDaemon' #(#int32) #int32).
-
 ]

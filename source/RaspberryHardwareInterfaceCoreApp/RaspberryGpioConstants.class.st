@@ -1055,5 +1055,4 @@ RaspberryGpioConstants class >> initialize [
 	WaveModeRepeatSync := 3.
 	WaveNotFound := 9998.
 	WhoAmIRegister := 15.
-
 ]

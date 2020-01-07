@@ -26,14 +26,14 @@ I2CDeviceGPIOMCP23017 >> clearOutputBit: anInteger [
 { #category : 'registers' }
 I2CDeviceGPIOMCP23017 >> configuration [
 	"  8 bits:
-	 | BANK | MIRROR | SEQOP | DISSLW | HAEN | ODR | INTPOL | — | "
+	 | BANK | MIRROR | SEQOP | DISSLW | HAEN | ODR | INTPOL | â€” | "
 	^bus register: 16rA
 ]
 
 { #category : 'registers' }
 I2CDeviceGPIOMCP23017 >> configuration: value [
 	"  8 bits:
-	 | BANK | MIRROR | SEQOP | DISSLW | HAEN | ODR | INTPOL | — | "
+	 | BANK | MIRROR | SEQOP | DISSLW | HAEN | ODR | INTPOL | â€” | "
 	^bus register: 16rA value: value
 ]
 

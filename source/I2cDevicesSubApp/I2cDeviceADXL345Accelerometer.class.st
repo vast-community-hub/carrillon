@@ -84,7 +84,7 @@ I2cDeviceADXL345Accelerometer >> readCoordinates [
 	| acc_x acc_y acc_z |
 
 	"On the datasheet or some links online it says:
-		'Digital output data is formatted as 16-bit two’s complement'
+		'Digital output data is formatted as 16-bit twoâ€™s complement'
 	 That's why we use #register16signed:
 	 "
 	acc_x := bus register16signed: 16r32.

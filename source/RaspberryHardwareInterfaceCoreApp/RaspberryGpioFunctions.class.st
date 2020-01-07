@@ -337,5 +337,4 @@ RaspberryGpioFunctions class >> initialize [
 	SpiXfer := PlatformFunction fromArray: #('C' 'spiXfer' nil 'RaspberryGpio' #(#uint32 #pointer #pointer #uint32) #int32).
 	TimeSleep := PlatformFunction fromArray: #('C' 'time_sleep' nil 'RaspberryGpio' #(#double) #void).
 	TimeTime := PlatformFunction fromArray: #('C' 'time_time' nil 'RaspberryGpio' #() #double).
-
 ]
