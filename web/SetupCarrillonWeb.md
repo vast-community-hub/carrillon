@@ -122,9 +122,9 @@ To enter from the browser without nginx: `http://localhost:9999/carrillon`. With
 
 ### Preparing the RaspberryPi
 
-The Raspberry must be prepare for running VAST and pigpio. For more details see [this post](https://marianopeck.wordpress.com/2019/06/07/beginners-guide-to-gpio-in-vasmalltalk/).
+The Raspberry must be prepare for running VAST and pigpio. For more details see [this post](https://dev.to/martinezpeck/accessing-raspberry-pi-gpios-with-smalltalk-4blh).
 
-If you want to access the GPIOS of the Pi remotely, you should read [this post](https://marianopeck.wordpress.com/2019/06/11/va-smalltalk-remote-controlling-raspberry-pis-from-across-the-world/). You will notice that you must enable remote GPIO on Raspbian as well as running the daemon like this:
+If you want to access the GPIOS of the Pi remotely, you should read [this post](https://dev.to/martinezpeck/remote-controlling-raspberry-pis-from-across-the-world-with-smalltalk-35nc). You will notice that you must enable remote GPIO on Raspbian as well as running the daemon like this:
 
 ```bash
 sudo pigpiod 8888
