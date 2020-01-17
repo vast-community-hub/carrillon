@@ -62,9 +62,26 @@ Now with the new hardware and software, you can play any MIDI file on the Raspbe
 
 ## Tests, TDD and Mocking
 
-We apply TDD (Test Driven Development) when possible and we wrote many unit tests to allow for rapid development/debugging, including basic device mocking to test the MCP23017 driver implementation, as shown in the following screenshot:
+We apply TDD (Test Driven Development) when possible and we wrote many unit tests to allow for rapid development/debugging, including basic device mocking to test the MCP23017 driver implementation, as shown in the following example:
 
-![table](assets/pictures/smalltalkCode1.png)
+```smalltalk
+testPulseCompleted
+	port pulseForMilliseconds:5.
+	out reset.
+	self
+		assert: out next equals: 16r12;
+		assert: out next equals: 2;
+		assert: out atEnd.
+	(Delay forMilliseconds: 7) wait.
+	out reset.
+	self
+		assert: out next equals: 16r12;
+		assert: out next equals: 2;
+		assert: out next equals: 16r12;
+		assert: out next equals: 0;
+		assert: out atEnd.
+```
+
 
 One particular challenge was how to test the project without needing to go to the physical bell tower and test with the real bells. To address this, we’ve built an LED piano “display” on a protoboard that resembles the exact same layout as the Carrillón. Each LED represents a note and each note is mapped to a bell, so we could play MIDI songs at home and see those on the LED piano. We also used FluidSynth (MIDI software synthesizer) to hear the songs while developing.
 
