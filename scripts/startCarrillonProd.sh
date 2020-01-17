@@ -6,7 +6,7 @@ carrillonRoot="$(dirname "$carrillonScript")"
 echo "ROOT: $carrillonRoot"
 
 echo "Starting midi2tcp.py"
-python3 "$carrillonRoot/midi2tcp.py" &
+python3 "$carrillonRoot/python/midi2tcp.py" &
 
 echo "Start pigpiod"
 sudo pigpiod

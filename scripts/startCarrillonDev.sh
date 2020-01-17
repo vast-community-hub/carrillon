@@ -10,7 +10,7 @@ echo "$carrillonRoot/tubular_bells.sf2"
 fluidsynth -i -s -a pulseaudio -m alsa_seq "$carrillonRoot/tubular_bells.sf2" &
 
 echo "Starting midi2tcp.py"
-python3 "$carrillonRoot/midi2tcp.py" &
+python3 "$carrillonRoot/python/midi2tcp.py" &
 
 echo "Starting aconnect "
 sleep 5s #Give some time for fluidsynth and midi2tcp.py to start
