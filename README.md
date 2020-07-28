@@ -104,6 +104,7 @@ See [this page](web/SetupCarrillonWeb.md) for more details about how to setup OS
 
 
 ## Blog posts, awards and conferences
+- ["El Carrillon" project featured in the official RaspberryPi magazine MagPi](https://dev.to/martinezpeck/el-carrillon-project-featured-in-the-raspberrypi-magazine-magpi-2fpp)
 - [Developing, testing and mocking the largest MIDI instrument of the world with a Raspberry Pi and a DIY LEDs piano](https://dev.to/martinezpeck/developing-testing-and-mocking-the-largest-midi-instrument-of-the-world-with-a-raspberry-pi-and-a-diy-leds-piano-7el)
 - [El Carrillon: playing MIDI songs on an 18-bell tower with a Raspberry Pi and Smalltalk](https://dev.to/martinezpeck/el-carrillon-playing-midi-songs-on-an-18-bell-tower-with-a-raspberry-pi-and-smalltalk-3f1f)
 - [Presentation at Smalltalks 2019](https://youtu.be/5HnxUGA0ZlE?t=2057)
